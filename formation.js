@@ -43,8 +43,8 @@
 
       // process any formation options or element attributes
       var firstArg = args[0];
-      if(firstArg.nodeType !== 1 && typeof(firstArg) === 'object') {
-        processOptions(options, arg, el);
+      if(!!firstArg && firstArg.nodeType !== 1 && typeof(firstArg) === 'object') {
+        processOptions(options, firstArg, el);
         args = Array.prototype.slice.call(args, 1);
       }
 
@@ -110,7 +110,8 @@
 
       // other keys will be considered element attributes
       else {
-        el.setAttribute(given[key]);
+        console.log(key);
+        el.setAttribute(key, given[key]);
       }
     }
   };
