@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <title>Backbone UI</title>
+
+    <script src="./vendor/laconic.js"></script>
+    <script src="../formation.js"></script>
+    <style>
+      .container {
+        border:1px solid #ddd;
+        margin:40px;
+        padding:20px;
+        width:650px;
+      }
+
+      .flow > div {
+        width:200px;
+        padding:5px;
+        background-color:#333;
+        color:#fff;
+        text-align:center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script type="text/javascript">
+
+      document.body.onload = function() {
+        var container = $.el.div({className : 'container'}).appendTo(document.body);
+
+        $.formation.stack(
+
+          $.formation.flow(
+            $.el.div('1A'),
+            $.el.div('1B'),
+            $.el.div('1C')),
+
+          $.formation.flow(
+            'spring',
+            $.el.div('2B'),
+            $.el.div('2C')),
+
+          $.formation.flow(
+            $.el.div('3A'),
+            'spring',
+            $.el.div('3C'))
+
+        ).appendTo(container);
+      };
+
+    </script>
+  </body>
+</html>

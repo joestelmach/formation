@@ -1,29 +1,59 @@
 !function(context) {
 
+  var css = 
+    '.formation.flow {' +
+    '}' +
+
+    '.formation.flow .left {' +
+      'display: inline-block;' +
+      'zoom: 1;' +
+      '*display: inline;' +
+      'vertical-align:top;' +
+    '}' +
+
+    '.formation.flow .right {' +
+      'float: right;' +
+    '}' +
+
+    '.formation.flow br.clear {' +
+      'clear:both;' +
+      'height:0px;' +
+      'line-height:0px;' +
+    '}'; 
+
+  var styleNode = $.el.style({type : 'text/css'});
+  if(!!(window.attachEvent && !window.opera)) {
+    styleNode.styleSheet.cssText = css;
+  } 
+  else {
+    styleNode.appendChild(document.createTextNode(css));
+  }
+  document.getElementsByTagName('head')[0].appendChild(styleNode);
+
   var formation = {
 
     stack : function() {
 
       var options = {
         padding : '10px',
-        className : 'stack'
+        className : 'formation stack'
       };
 
-      var el = document.createElement('div');
+      var el = $.el.div();
 
       for(var i=0; i<arguments.length; i++) {
         var arg = arguments[i];
 
         // if the argument is a dom node, we append it
         if(arg.nodeType === 1) {
-          var isLast = i === children.length - 1;
-          el.style.marginBottom = isLast ? '0' : options.padding;
+          var isLast = i === arguments.length - 1;
+          arg.style.marginBottom = isLast ? '0' : options.padding;
           el.appendChild(arg);
         }
 
         // if the argument is a plain old object, and it's in the 
         // first slot, we process the object as options
-        if(i === 0 && typeof(arg) === 'object') {
+        else if(i === 0 && typeof(arg) === 'object') {
           processOptions(options, arg, el);
         }
       }
@@ -35,10 +65,10 @@
     flow : function() {
       var options = {
         padding : '10px',
-        className : 'flow'
+        className : 'formation flow'
       };
 
-      var el = document.createElement('div');
+      var el = $.el.div();
       var args = arguments;
 
       // process any formation options or element attributes
@@ -62,14 +92,14 @@
       var child;
       for(i=args.length-1; i>leftLimit; i--) {
         child = args[i];
+        child.className += ' right';
         if(i === args.length - 1) el.className += ' last';
         if(i === 0) child.className += ' first';
         child.style.marginLeft = options.padding;
-        child.style['float'] = 'right';
 
         !!previousChild && !!previousChild.nextChild ?
           el.insertBefore(child, previousChild.nextChild) :
-          el.appendChild(el);
+          el.appendChild(child);
 
         var previousChild = child;
       }
@@ -79,22 +109,17 @@
         child = args[i];
 
         // set class name
+        child.className += ' left';
         if(i === 0) child.className += ' first';
-        if(i === leftLimit - 1) child.className += 'last';
+        if(i === leftLimit - 1) child.className += ' last';
 
         // set style attributes
-        child.style.display = 'inline-block';
-        child.style.zoom = '1';
-        child.style['*display'] = 'inline';
-        child.style.verticalAlign = 'top';
-        if(i !== leftLimit - 1) child.style.marginRight = padding;
+        if(i !== leftLimit - 1) child.style.marginRight = options.padding;
 
         el.appendChild(child);
       }
       
-      var br = document.createElement('br');
-      br.style.clear = 'both';
-      el.appendChild(br);
+      el.appendChild($.el.br({className : 'clear'}));
 
       el.className = options.className;
       return el;
