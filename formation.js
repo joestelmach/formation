@@ -146,8 +146,12 @@
   // otherwise, we attach them to the top level $.formation namespace
   else {
     var dollar = context['$'] || {};
-    dollar['formation'] = formation;
+    dollar.el = dollar.el || {};
+    for(var key in formation) {
+      dollar.el[key] = formation[key];
+    }
     context['$'] = dollar;
   }
 
 }(this);
+
