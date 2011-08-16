@@ -1,24 +1,21 @@
 !function(context) {
 
   var css = 
-    '.formation.flow {' +
-    '}' +
-
     '.formation.flow .left {' +
       'display: inline-block;' +
-      'zoom: 1;' +
       '*display: inline;' +
+      'zoom: 1;' +
       'vertical-align:top;' +
     '}' +
 
     '.formation.flow .right {' +
       'float: right;' +
+      'zoom: 1;' +
     '}' +
 
-    '.formation.flow br.clear {' +
+    '.formation.flow span.clear {' +
       'clear:both;' +
-      'height:0px;' +
-      'line-height:0px;' +
+      'display:block;' +
     '}'; 
 
   var styleNode = $.el.style({type : 'text/css'});
@@ -119,7 +116,7 @@
         el.appendChild(child);
       }
       
-      el.appendChild($.el.br({className : 'clear'}));
+      el.appendChild($.el.span({className : 'clear'}));
 
       el.className = options.className;
       return el;
