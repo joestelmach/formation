@@ -13,7 +13,7 @@
       'zoom: 1;' +
     '}' +
 
-    '.formation.flow span.clear {' +
+    '.formation span.clear {' +
       'clear:both;' +
       'display:block;' +
     '}'; 
@@ -46,6 +46,7 @@
           var isLast = i === arguments.length - 1;
           arg.style.marginBottom = isLast ? '0' : options.padding;
           el.appendChild(arg);
+          $.el.span({className: 'clear'}).appendTo(el);
         }
 
         // if the argument is a plain old object, and it's in the 
@@ -116,7 +117,7 @@
         el.appendChild(child);
       }
       
-      el.appendChild($.el.span({className : 'clear'}));
+      $.el.span({className : 'clear'}).appendTo(el);
 
       el.className = options.className;
       return el;
