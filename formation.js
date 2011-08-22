@@ -90,16 +90,18 @@
       var child;
       for(i=args.length-1; i>leftLimit; i--) {
         child = args[i];
-        child.className += ' right';
-        if(i === args.length - 1) el.className += ' last';
-        if(i === 0) child.className += ' first';
-        child.style.marginLeft = options.padding;
+        if(child) {
+          child.className += ' right';
+          if(i === args.length - 1) el.className += ' last';
+          if(i === 0) child.className += ' first';
+          child.style.marginLeft = options.padding;
 
-        !!previousChild && !!previousChild.nextChild ?
-          el.insertBefore(child, previousChild.nextChild) :
-          el.appendChild(child);
+          !!previousChild && !!previousChild.nextChild ?
+            el.insertBefore(child, previousChild.nextChild) :
+            el.appendChild(child);
 
-        var previousChild = child;
+          var previousChild = child;
+        }
       }
 
       // add children before the spring from left to right
@@ -107,14 +109,16 @@
         child = args[i];
 
         // set class name
-        child.className += ' left';
-        if(i === 0) child.className += ' first';
-        if(i === leftLimit - 1) child.className += ' last';
+        if(child) {
+          child.className += ' left';
+          if(i === 0) child.className += ' first';
+          if(i === leftLimit - 1) child.className += ' last';
 
-        // set style attributes
-        if(i !== leftLimit - 1) child.style.marginRight = options.padding;
+          // set style attributes
+          if(i !== leftLimit - 1) child.style.marginRight = options.padding;
 
-        el.appendChild(child);
+          el.appendChild(child);
+        }
       }
       
       $.el.span({className : 'clear'}).appendTo(el);
