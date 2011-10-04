@@ -1,32 +1,5 @@
 !function(context) {
 
-  var css = 
-    '.formation.flow .left {' +
-      'display: inline-block;' +
-      '*display: inline;' +
-      'zoom: 1;' +
-      'vertical-align:top;' +
-    '}' +
-
-    '.formation.flow .right {' +
-      'float: right;' +
-      'zoom: 1;' +
-    '}' +
-
-    '.formation span.clear {' +
-      'clear:both;' +
-      'display:block;' +
-    '}'; 
-
-  var styleNode = $.el.style({type : 'text/css'});
-  if(!!(window.attachEvent && !window.opera)) {
-    styleNode.styleSheet.cssText = css;
-  } 
-  else {
-    styleNode.appendChild(document.createTextNode(css));
-  }
-  document.getElementsByTagName('head')[0].appendChild(styleNode);
-
   var formation = {
 
     stack : function() {
@@ -40,13 +13,14 @@
 
       for(var i=0; i<arguments.length; i++) {
         var arg = arguments[i];
+        if(!arg) continue;
 
         // if the argument is a dom node, we append it
         if(arg.nodeType === 1) {
           var isLast = i === arguments.length - 1;
           arg.style.marginBottom = isLast ? '0' : options.padding;
           el.appendChild(arg);
-          $.el.span({className: 'clear'}).appendTo(el);
+          $.el.span({style : 'display:block;clear:both;'}).appendTo(el);
         }
 
         // if the argument is a plain old object, and it's in the 
@@ -94,7 +68,11 @@
           child.className += ' right';
           if(i === args.length - 1) el.className += ' last';
           if(i === 0) child.className += ' first';
+
+          // apply style attributes
           child.style.marginLeft = options.padding;
+          child.style['float'] = 'right;';
+          chile.style.zoom = '1';
 
           !!previousChild && !!previousChild.nextChild ?
             el.insertBefore(child, previousChild.nextChild) :
@@ -116,12 +94,18 @@
 
           // set style attributes
           if(i !== leftLimit - 1) child.style.marginRight = options.padding;
+          child.style.display = 'inline-block';
+          child.style.verticalAlign = 'top';
+          
+          // TODO IE7 zoom / inline hack
+          // child.style.display = 'inline';
+          // child.style.zoom = 'inline-block';
 
           el.appendChild(child);
         }
       }
       
-      $.el.span({className : 'clear'}).appendTo(el);
+      $.el.span({style : 'display:block;clear:both;'}).appendTo(el);
 
       el.className = options.className;
       return el;
