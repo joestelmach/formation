@@ -11,13 +11,14 @@
 
       var el = $.el.div();
 
-      for(var i=0; i<arguments.length; i++) {
-        var arg = arguments[i];
+      var args = flattenArgs(arguments);
+      for(var i=0; i<args.length; i++) {
+        var arg = args[i];
         if(!arg) continue;
 
         // if the argument is a dom node, we append it
         if(arg.nodeType === 1) {
-          var isLast = i === arguments.length - 1;
+          var isLast = i === args.length - 1;
           arg.style.marginBottom = isLast ? '0' : options.padding;
           el.appendChild(arg);
           $.el.span({style : 'display:block;clear:both;'}).appendTo(el);
@@ -25,7 +26,8 @@
 
         // if the argument is a plain old object, and it's in the 
         // first slot, we process the object as options
-        else if(i === 0 && typeof(arg) === 'object') {
+        else if(i === 0 && typeof(arg) === 'object' && 
+            !Object.prototype.toString.call(arg) === '[object Array]') {
           processOptions(options, arg, el);
         }
       }
@@ -41,7 +43,7 @@
       };
 
       var el = $.el.div();
-      var args = arguments;
+      var args = flattenArgs(arguments);
 
       // process any formation options or element attributes
       var firstArg = args[0];
@@ -72,7 +74,7 @@
           // apply style attributes
           child.style.marginLeft = options.padding;
           child.style['float'] = 'right;';
-          chile.style.zoom = '1';
+          child.style.zoom = '1';
 
           !!previousChild && !!previousChild.nextChild ?
             el.insertBefore(child, previousChild.nextChild) :
@@ -112,6 +114,22 @@
     }
   };
 
+  var flattenArgs = function(args) {
+    var flattened = [];
+    for(var i=0; i<args.length; i++) {
+      var arg = args[i];
+      if(Object.prototype.toString.call(arg) === '[object Array]') {
+        for(var j=0; j<arg.length; j++) {
+          flattened.push(arg[j]);
+        }
+      }
+      else {
+        flattened.push(arg);
+      }
+    }
+    return flattened;
+  };
+
   var processOptions = function(existing, given, el) {
     for(var key in given) {
       // any key corresponding to a formation option will be copied over 
@@ -121,7 +139,6 @@
 
       // other keys will be considered element attributes
       else {
-        console.log(key);
         el.setAttribute(key, given[key]);
       }
     }
