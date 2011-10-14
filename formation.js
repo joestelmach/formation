@@ -73,7 +73,7 @@
 
           // apply style attributes
           child.style.marginLeft = options.padding;
-          child.style['float'] = 'right;';
+          child.style.cssFloat = 'right';
           child.style.zoom = '1';
 
           !!previousChild && !!previousChild.nextChild ?
