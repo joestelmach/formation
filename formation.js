@@ -1,4 +1,4 @@
-!function(context) {
+(function(context) {
 
   var formation = {
 
@@ -27,7 +27,7 @@
         // if the argument is a plain old object, and it's in the 
         // first slot, we process the object as options
         else if(i === 0 && typeof(arg) === 'object' && 
-            !Object.prototype.toString.call(arg) === '[object Array]') {
+            Object.prototype.toString.call(arg) !== '[object Array]') {
           processOptions(options, arg, el);
         }
       }
@@ -134,7 +134,15 @@
     for(var key in given) {
       // any key corresponding to a formation option will be copied over 
       if(existing[key] !== undefined) {
-        existing[key] = given[key];
+        // class name option should be appended to the existing class name
+        if(key.match(/class/i) || key.match(/className/i)) {
+          existing.className = existing.className + ' ' + given[key];
+        }
+
+        // all other options should overwrite existing options
+        else {
+          existing[key] = given[key];
+        }
       }
 
       // other keys will be considered element attributes
@@ -159,5 +167,4 @@
     context['$'] = dollar;
   }
 
-}(this);
-
+})(this);
