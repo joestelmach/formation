@@ -99,9 +99,12 @@
           child.style.display = 'inline-block';
           child.style.verticalAlign = 'top';
           
-          // TODO IE7 zoom / inline hack
-          // child.style.display = 'inline';
           // child.style.zoom = 'inline-block';
+          // IE7 zoom / inline hack
+          if(document.all && !window.opera && window.XMLHttpRequest) {
+            child.style.display = 'inline';
+            child.style.zoom = '1';
+          }
 
           el.appendChild(child);
         }
