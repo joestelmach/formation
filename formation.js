@@ -1,5 +1,8 @@
 (function(context) {
 
+  var CommonJS = typeof module !== 'undefined' && module.exports;
+  var laco = CommonJS ? require('laconic') : $.el;
+
   var formation = {
 
     stack : function() {
@@ -9,7 +12,7 @@
         className : 'formation stack'
       };
 
-      var el = $.el.div();
+      var el = laco.div();
 
       var args = flattenArgs(arguments);
       for(var i=0; i<args.length; i++) {
@@ -21,7 +24,7 @@
           var isLast = i === args.length - 1;
           arg.style.marginBottom = isLast ? '0' : options.padding;
           el.appendChild(arg);
-          $.el.span({style : 'display:block;clear:both;'}).appendTo(el);
+          laco.span({style : 'display:block;clear:both;'}).appendTo(el);
         }
 
         // if the argument is a plain old object, and it's in the 
@@ -42,7 +45,7 @@
         className : 'formation flow'
       };
 
-      var el = $.el.div();
+      var el = laco.div();
       var args = flattenArgs(arguments);
 
       // process any formation options or element attributes
@@ -111,7 +114,7 @@
         }
       }
       
-      $.el.span({style : 'display:block;clear:both;'}).appendTo(el);
+      laco.span({style : 'display:block;clear:both;'}).appendTo(el);
 
       el.className = options.className;
       return el;

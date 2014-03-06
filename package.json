@@ -1,0 +1,19 @@
+{
+  "name": "formation-js",
+  "version": "0.1.0",
+  "files": [
+    "formation.js",
+    "example/"
+  ],
+  "main": "formation.js",
+  "description": "flow and stack layout library",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joestelmach/formation.git"
+  },
+  "dependencies": {
+    "laconic": "0.2.2"
+  },
+  "homepage": "https://github.com/joestelmach/formation",
+  "bugs": "https://github.com/joestelmach/formation/issues"
+}
