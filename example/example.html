@@ -14,6 +14,10 @@
         width:650px;
       }
 
+      .vertical_container {
+        height: 300px;
+      }
+
       .flow > div {
         width:200px;
         padding:5px;
@@ -27,26 +31,39 @@
       window.onload = function() {
         var container = $.el.div({className : 'container'}).appendTo(document.body);
 
-        $.formation.stack(
+        $.el.stack(
 
-          $.formation.flow(
+          $.el.flow(
             $.el.div('1A'),
             $.el.div('1B'),
             $.el.div('1C')),
 
-          $.formation.flow(
+          $.el.flow(
             'spring',
             $.el.div('2B'),
             $.el.div('2C')),
 
-          $.formation.flow(
+          $.el.flow(
             $.el.div('3A'),
             'spring',
             $.el.div('3C'))
 
         ).appendTo(container);
-      };
 
+        // vertical-align testing
+        var verticalContainer = $.el.div({className: 'container vertical_container'})
+          .appendTo(document.body);
+
+        $.el.stack(
+
+          $.el.flow({verticalAlign: 'bottom'},
+            $.el.div('1'),
+            $.el.div('2'),
+            $.el.div('3')
+          )
+
+        ).appendTo(verticalContainer)
+      };
     </script>
   </head>
 
