@@ -27,9 +27,9 @@
           laco.span({style : 'display:block;clear:both;'}).appendTo(el);
         }
 
-        // if the argument is a plain old object, and it's in the 
+        // if the argument is a plain old object, and it's in the
         // first slot, we process the object as options
-        else if(i === 0 && typeof(arg) === 'object' && 
+        else if(i === 0 && typeof(arg) === 'object' &&
             Object.prototype.toString.call(arg) !== '[object Array]') {
           processOptions(options, arg, el);
         }
@@ -42,7 +42,8 @@
     flow : function() {
       var options = {
         padding : '10px',
-        className : 'formation flow'
+        className : 'formation flow',
+        verticalAlign: 'top'
       };
 
       var el = laco.div();
@@ -55,7 +56,7 @@
         args = Array.prototype.slice.call(args, 1);
       }
 
-      // determine the spring index 
+      // determine the spring index
       var i, springIndex = -1;
       for(i=0; i<args.length; i++) {
         if(args[i] === 'spring') {
@@ -100,8 +101,8 @@
           // set style attributes
           if(i !== leftLimit - 1) child.style.marginRight = options.padding;
           child.style.display = 'inline-block';
-          child.style.verticalAlign = 'top';
-          
+          child.style.verticalAlign = options.verticalAlign;
+
           // IE7 zoom / inline hack
           if (navigator.appVersion.indexOf("MSIE") != -1) {
             if(parseFloat(navigator.appVersion.split("MSIE")[1]) <= 7) {
@@ -113,7 +114,7 @@
           el.appendChild(child);
         }
       }
-      
+
       laco.span({style : 'display:block;clear:both;'}).appendTo(el);
 
       el.className = options.className;
@@ -139,7 +140,7 @@
 
   var processOptions = function(existing, given, el) {
     for(var key in given) {
-      // any key corresponding to a formation option will be copied over 
+      // any key corresponding to a formation option will be copied over
       if(existing[key] !== undefined) {
         // class name option should be appended to the existing class name
         if(key.match(/class/i) || key.match(/className/i)) {
@@ -162,7 +163,7 @@
   // If we're in a CommonJS environment, we export our formation methods
   if(typeof module !== 'undefined' && module.exports) {
     module.exports = formation;
-  } 
+  }
 
   // otherwise, we attach them to the top level $.formation namespace
   else {
