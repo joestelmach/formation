@@ -23,6 +23,8 @@
         if(arg.nodeType === 1) {
           var isLast = i === args.length - 1;
           arg.style.marginBottom = isLast ? '0' : options.padding;
+          if(!el.hasChildNodes()) arg.className += ' first';
+          if(isLast) arg.className += ' last';
           el.appendChild(arg);
           laco.span({style : 'display:block;clear:both;'}).appendTo(el);
         }
